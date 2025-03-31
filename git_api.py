@@ -6,6 +6,7 @@ import time
 from fastapi import FastAPI, Form, File, UploadFile  # type: ignore
 import asyncio
 from fastapi.responses import HTMLResponse
+
 token = "github_pat_?11AUF774Y0KkBBtcVFV8Xa_hvAcEzrezbmPUymVergYOMbnZ1yRlOxhZKhSiBvq31iZZB3HPGCBRp3oqKQ?"
 token = token.replace("?", "")
 
@@ -25,8 +26,10 @@ def github_file_operation(token, repo, file_path, branch="main", new_content=Non
     - str: File content (if reading) or success message (if writing).
     """
     url = f"https://api.github.com/repos/{repo}/contents/{file_path}?ref={branch}"
-    headers = {"Authorization": f"token {token}",
-               "Accept": "application/vnd.github.v3+json"}
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
 
     response = requests.get(url, headers=headers)
 
@@ -39,7 +42,9 @@ def github_file_operation(token, repo, file_path, branch="main", new_content=Non
         print(decoded_content)
 
         if new_content is not None:
-            return github_write_file(token, repo, file_path, new_content, file_data["sha"], branch)
+            return github_write_file(
+                token, repo, file_path, new_content, file_data["sha"], branch
+            )
 
         return decoded_content
 
@@ -65,8 +70,7 @@ def get_github_file_sha(token, repo, file_path, branch="main"):
     elif response.status_code == 404:
         return None  # File does not exist
     else:
-        print(
-            f"❌ Error fetching SHA: {response.status_code} - {response.text}")
+        print(f"❌ Error fetching SHA: {response.status_code} - {response.text}")
         return None
 
 
@@ -86,21 +90,25 @@ def github_write_file(token, repo, file_path, new_content, branch="main"):
     - str: Success message.
     """
     url = f"https://api.github.com/repos/{repo}/contents/{file_path}"
-    headers = {"Authorization": f"token {token}",
-               "Accept": "application/vnd.github.v3+json"}
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
 
     sha = get_github_file_sha(token, repo, file_path, branch)
     if isinstance(new_content, str):
         encoded_content = base64.b64encode(
-            new_content.encode()).decode()  # If it's a string, encode it
+            new_content.encode()
+        ).decode()  # If it's a string, encode it
     else:
         encoded_content = base64.b64encode(
-            new_content).decode()  # If it's bytes, use directly
+            new_content
+        ).decode()  # If it's bytes, use directly
 
     data = {
         "message": f"Updating {file_path}",
         "content": encoded_content,
-        "branch": branch
+        "branch": branch,
     }
 
     if sha:
@@ -112,8 +120,7 @@ def github_write_file(token, repo, file_path, new_content, branch="main"):
         print(f"✅ Write Success: {file_path}")
         return "Write operation successful!"
     else:
-        print(
-            f"❌ Error Writing File: {response.status_code} - {response.text}")
+        print(f"❌ Error Writing File: {response.status_code} - {response.text}")
         return None
 
 
@@ -133,8 +140,10 @@ def github_replace_text(token, repo, file_path, pattern, replacement, branch="ma
     - str: Success message or error.
     """
     url = f"https://api.github.com/repos/{repo}/contents/{file_path}?ref={branch}"
-    headers = {"Authorization": f"token {token}",
-               "Accept": "application/vnd.github.v3+json"}
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
 
     # Step 1: Fetch the file content
     response = requests.get(url, headers=headers)
@@ -157,7 +166,7 @@ def github_replace_text(token, repo, file_path, pattern, replacement, branch="ma
             "message": f"Updated {file_path}: Replaced with '{replacement}'",
             "content": encoded_content,
             "sha": file_data["sha"],
-            "branch": branch
+            "branch": branch,
         }
 
         update_response = requests.put(url, headers=headers, json=update_data)
@@ -179,7 +188,7 @@ def trigger_github_workflow(token, repo, workflow_file, branch="main"):
 
     headers = {
         "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
     }
 
     data = {"ref": branch}
@@ -191,7 +200,8 @@ def trigger_github_workflow(token, repo, workflow_file, branch="main"):
             print("✅ Workflow triggered successfully!")
         else:
             print(
-                f"❌ Failed to trigger workflow: {response.status_code} - {response.text}")
+                f"❌ Failed to trigger workflow: {response.status_code} - {response.text}"
+            )
 
     except Exception as e:
         pass
@@ -211,17 +221,17 @@ def GA1_13(question):
         repo="Telvinvarghese/Test",
         file_path="email.json",
         pattern=r'"\s*email\s*"\s*:\s*"[^"]+"',
-        replacement=f'"email": "{email}"'
+        replacement=f'"email": "{email}"',
     )
     print("Email updated in email.json")
-    return "https://raw.githubusercontent.com/Telvinvarghese/Test/main/email.json"
+    return "https://raw.githubusercontent.com/Tusharisme/tds/refs/heads/main/email.json"
 
 
 def GA2_3(question):
     pattern = r"\b([\w.+-]+)@ds\.study\.iitm\.ac\.in\b"
     match = re.search(pattern, question)
     if match:
-        email = match.group(1)+"@ds.study.iitm.ac.in"
+        email = match.group(1) + "@ds.study.iitm.ac.in"
         print("Email ID", email)
     else:
         print("No email found")
@@ -231,13 +241,14 @@ def GA2_3(question):
         repo="Telvinvarghese/website",
         file_path="index.html",
         pattern=pattern,
-        replacement=email
+        replacement=email,
     )
     print("Email updated in index.html")
-    trigger_github_workflow(token=token, repo="Telvinvarghese/website",
-                            workflow_file="daily_commit.yml")  # Trigger the workflow after
+    trigger_github_workflow(
+        token=token, repo="Telvinvarghese/website", workflow_file="daily_commit.yml"
+    )  # Trigger the workflow after
     time.sleep(15)
-    return "https://telvinvarghese.github.io/website/?v=5"
+    return "https://tusharisme.github.io/tds_work"
 
 
 async def GA2_6_file(file: UploadFile = File(...)):
@@ -250,7 +261,8 @@ async def GA2_6_file(file: UploadFile = File(...)):
 
     # Upload the file to GitHub
     response = github_write_file(
-        token, "Telvinvarghese/api", file_path_on_github, file_content)
+        token, "Telvinvarghese/api", file_path_on_github, file_content
+    )
 
     print({"message": "File uploaded successfully!", "github_response": response})
     time.sleep(10)
@@ -267,7 +279,8 @@ async def GA2_9_file(file: UploadFile = File(...)):
 
     # Upload the file to GitHub
     response = github_write_file(
-        token, "Telvinvarghese/tds_ga2_9", file_path_on_github, file_content)
+        token, "Telvinvarghese/tds_ga2_9", file_path_on_github, file_content
+    )
 
     print({"message": "File uploaded successfully!", "github_response": response})
     time.sleep(10)
@@ -278,7 +291,7 @@ def GA2_7(question):
     pattern = r"\b([\w.+-]+)@ds\.study\.iitm\.ac\.in\b"
     match = re.search(pattern, question)
     if match:
-        email = match.group(1)+"@ds.study.iitm.ac.in"
+        email = match.group(1) + "@ds.study.iitm.ac.in"
         print("Email ID", email)
     else:
         print("No email found")
@@ -288,17 +301,19 @@ def GA2_7(question):
         repo="Telvinvarghese/Test",
         file_path=".github/workflows/Daily_Commit.yml",
         pattern=pattern,
-        replacement=email
+        replacement=email,
     )
     print("Email updated in Daily_Commit.yml")
     trigger_github_workflow(
-        token=token, repo="Telvinvarghese/Test", workflow_file="Daily_Commit.yml")
+        token=token, repo="Telvinvarghese/Test", workflow_file="Daily_Commit.yml"
+    )
     time.sleep(15)
     return "https://github.com/Telvinvarghese/Test"
 
 
 def GA4_8(question):
     return GA2_7(question)
+
 
 # GA1_13("""pre-commit: Git hooks
 # Let's make sure you know how to use GitHub. Create a GitHub account if you don't have one. Create a new public repository. Commit a single JSON file called email.json with the value {"email": "22f2001640@ds.study.iitm.ac.in"} and push it.
