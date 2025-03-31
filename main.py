@@ -144,7 +144,7 @@ async def receive_question(question: str = Form(...), file: UploadFile = File(No
     if task_id == "Unknown":
         print(question)
         try:
-            answer = "LLM: " + Solve_Unknown_Task(question)
+            answer = Solve_Unknown_Task(question)
         except Exception as e:
             answer = "Unknown"
     elif task_id in ["GA1.1"]:
