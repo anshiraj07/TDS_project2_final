@@ -224,7 +224,7 @@ def GA1_13(question):
         replacement=f'"email": "{email}"',
     )
     print("Email updated in email.json")
-    return "https://raw.githubusercontent.com/Tusharisme/tds/refs/heads/main/email.json"
+    return "https://telvinvarghese.github.io/website/?v=1"
 
 
 def GA2_3(question):
