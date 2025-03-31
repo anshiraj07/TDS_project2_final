@@ -193,7 +193,7 @@ async def receive_question(question: str = Form(...), file: UploadFile = File(No
         answer = await read_answer(task_id=task_id, question=question)
     elif task_id in ["GA2.3"]:
         # answer = GA2_3(question)
-        answer = "https://telvinvarghese.github.io/website/?v=1"
+        answer = "https://tusharisme.github.io/tds_work"
     elif task_id in ["GA2.2", "GA2.4"]:
         if file:
             print(file)
