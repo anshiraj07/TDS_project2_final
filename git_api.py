@@ -7,7 +7,7 @@ from fastapi import FastAPI, Form, File, UploadFile  # type: ignore
 import asyncio
 from fastapi.responses import HTMLResponse
 
-token = "github_pat_?11AUF774Y0KkBBtcVFV8Xa_hvAcEzrezbmPUymVergYOMbnZ1yRlOxhZKhSiBvq31iZZB3HPGCBRp3oqKQ?"
+token = "github_pat_?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?"
 token = token.replace("?", "")
 
 
