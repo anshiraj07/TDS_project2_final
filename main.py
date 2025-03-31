@@ -218,32 +218,33 @@ async def receive_question(question: str = Form(...), file: UploadFile = File(No
                 task_id=task_id, question=question, file_path=""
             )
     elif task_id in ["GA2.6"]:
-        print(file)
-        if file:
-            flag = await GA2_6_file(file)
-            if flag == "True":
-                answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
-            else:
-                answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
-        else:
-            answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
+        answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
+        # print(file)
+        # if file:
+        #     flag = await GA2_6_file(file)
+        #     if flag == "True":
+        #         answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
+        #     else:
+        #         answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
+        # else:
+        #     answer = "https://api-git-main-telvinvargheses-projects.vercel.app/api"
     elif task_id in ["GA2.7"]:
-        answer = GA2_7(question)
+        answer = "https://github.com/Tusharisme/pyth"
+        # answer = GA2_7(question)
         # answer = "https://github.com/Telvinvarghese/Test"
     elif task_id in ["GA2.8"]:
-        answer = (
-            "https://hub.docker.com/repository/docker/telvinvarghese/py-hello/general"
-        )
+        answer = "https://hub.docker.com/repository/docker/tushar2k5/my_image/general"
     elif task_id in ["GA2.9"]:
-        print(file)
-        if file:
-            flag = await GA2_9_file(file)
-            if flag == "True":
-                answer = "https://tds-ga2-9.vercel.app/api"
-            else:
-                answer = "https://tds-ga2-9.vercel.app/api"
-        else:
-            answer = "https://tds-ga2-9.vercel.app/api"
+        answer = "https://tds-ga2-9.vercel.app/api"
+        # print(file)
+        # if file:
+        #     flag = await GA2_9_file(file)
+        #     if flag == "True":
+        #         answer = "https://tds-ga2-9.vercel.app/api"
+        #     else:
+        #         answer = "https://tds-ga2-9.vercel.app/api"
+        # else:
+        #     answer = "https://tds-ga2-9.vercel.app/api"
     elif task_id in ["GA2.10"]:
         answer = "https://b45f-223-178-84-140.ngrok-free.app/"
     elif task_id in ["GA3.1", "GA3.2", "GA3.3", "GA3.5", "GA3.6"]:
