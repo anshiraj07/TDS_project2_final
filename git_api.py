@@ -224,7 +224,7 @@ def GA1_13(question):
         replacement=f'"email": "{email}"',
     )
     print("Email updated in email.json")
-    return "https://telvinvarghese.github.io/website/?v=1"
+    return "https://raw.githubusercontent.com/Tusharisme/tds/refs/heads/main/email.json"
 
 
 def GA2_3(question):
@@ -248,7 +248,7 @@ def GA2_3(question):
         token=token, repo="Telvinvarghese/website", workflow_file="daily_commit.yml"
     )  # Trigger the workflow after
     time.sleep(15)
-    return "https://tusharisme.github.io/tds_work"
+    return "https://telvinvarghese.github.io/website/?v=1"
 
 
 async def GA2_6_file(file: UploadFile = File(...)):
